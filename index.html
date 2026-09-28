@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Water Smart</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #eaf8ff;
+    color: #123;
+}
+
+header {
+    background: #0099ff;
+    color: white;
+    text-align: center;
+    padding: 30px 15px;
+    border-radius: 0 0 25px 25px;
+}
+
+header h1 {
+    margin: 5px 0;
+    font-size: 30px;
+}
+
+header p {
+    margin: 5px 0;
+}
+
+.container {
+    width: 92%;
+    max-width: 600px;
+    margin: 20px auto;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 18px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+h2 {
+    color: #0088dd;
+    margin-top: 0;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 6px;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 2px solid #cceeff;
+    border-radius: 10px;
+    font-size: 16px;
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 12px;
+    background: #008cff;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+button:active {
+    background: #006dcc;
+}
+
+#hasil {
+    display: none;
+}
+
+.total {
+    text-align: center;
+    font-size: 40px;
+    font-weight: bold;
+    color: #008cff;
+    margin: 15px 0 5px;
+}
+
+.satuan {
+    text-align: center;
+    color: #666;
+}
+
+.status {
+    text-align: center;
+    background: #e5f7ff;
+    padding: 12px;
+    border-radius: 10px;
+    margin: 15px 0;
+    font-weight: bold;
+}
+
+.saran {
+    background: #f0faff;
+    padding: 15px;
+    border-left: 5px solid #008cff;
+    border-radius: 8px;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+    font-size: 13px;
+}
+</style>
+
+</head>
+
+<body>
+
+<header>
+    <div style="font-size:50px;">💧</div>
+    <h1>WATER SMART</h1>
+    <p>Aplikasi Penghitung Penggunaan Air</p>
+</header>
+
+<div class="container">
+
+    <div class="card">
+        <h2>📊 Masukkan Data</h2>
+
+        <label>🚿 Berapa kali mandi per hari?</label>
+        <input type="number" id="mandi" min="0" placeholder="Contoh: 2">
+
+        <label>⏱️ Durasi mandi setiap kali (menit)</label>
+        <input type="number" id="durasi" min="0" placeholder="Contoh: 10">
+
+        <label>🚰 Lama menggunakan keran (menit/hari)</label>
+        <input type="number" id="keran" min="0" placeholder="Contoh: 5">
+
+        <label>🧺 Berapa kali mencuci per hari?</label>
+        <input type="number" id="cuci" min="0" placeholder="Contoh: 1">
+
+        <label>💦 Penggunaan air lainnya (liter/hari)</label>
+        <input type="number" id="lainnya" min="0" placeholder="Contoh: 20">
+
+        <button onclick="hitungAir()">
+            💧 HITUNG PENGGUNAAN AIR
+        </button>
+    </div>
+
+    <div class="card" id="hasil">
+
+        <h2>📈 Hasil Perhitungan</h2>
+
+        <div class="total" id="total">0</div>
+
+        <div class="satuan">
+            liter / hari
+        </div>
+
+        <div class="status" id="status">
+            -
+        </div>
+
+        <div class="saran">
+            <b>💡 Saran Penghematan</b>
+            <p id="saran">-</p>
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <h2>🧮 Cara Kerja</h2>
+
+        <p>
+            Aplikasi menghitung perkiraan penggunaan air
+            berdasarkan data yang dimasukkan pengguna.
+        </p>
+
+        <p>
+            Air mandi = jumlah mandi × durasi × 10 liter
+        </p>
+
+        <p>
+            Air keran = durasi keran × 6 liter
+        </p>
+
+        <p>
+            Air mencuci = jumlah mencuci × 40 liter
+        </p>
+
+        <p>
+            Air lainnya = sesuai input pengguna
+        </p>
+
+    </div>
+
+</div>
+
+<footer>
+    Water Smart © 2026<br>
+    Proyek Kolaborasi PIPAS × Koding & AI
+</footer>
+
+<script>
+
+function hitungAir() {
+
+    var mandi = Number(document.getElementById("mandi").value) || 0;
+    var durasi = Number(document.getElementById("durasi").value) || 0;
+    var keran = Number(document.getElementById("keran").value) || 0;
+    var cuci = Number(document.getElementById("cuci").value) || 0;
+    var lainnya = Number(document.getElementById("lainnya").value) || 0;
+
+    var airMandi = mandi * durasi * 10;
+    var airKeran = keran * 6;
+    var airCuci = cuci * 40;
+
+    var total = airMandi + airKeran + airCuci + lainnya;
+
+    document.getElementById("total").innerHTML = total;
+
+    document.getElementById("hasil").style.display = "block";
+
+    if (total <= 100) {
+
+        document.getElementById("status").innerHTML =
+            "🌱 Penggunaan air cukup hemat";
+
+        document.getElementById("saran").innerHTML =
+            "Pertahankan kebiasaan hemat air. Matikan keran saat tidak digunakan.";
+
+    } else if (total <= 200) {
+
+        document.getElementById("status").innerHTML =
+            "💧 Penggunaan air sedang";
+
+        document.getElementById("saran").innerHTML =
+            "Cobalah mengurangi durasi mandi dan jangan membiarkan keran menyala terlalu lama.";
+
+    } else {
+
+        document.getElementById("status").innerHTML =
+            "⚠️ Penggunaan air cukup tinggi";
+
+        document.getElementById("saran").innerHTML =
+            "Kurangi durasi mandi, gunakan keran seperlunya, dan perhatikan penggunaan air untuk mencuci.";
+
+    }
+
+    document.getElementById("hasil").scrollIntoView({
+        behavior: "smooth"
+    });
+}
+
+</script>
+
+</body>
+  </html>
